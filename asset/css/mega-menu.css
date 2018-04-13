@@ -1,0 +1,74 @@
+/*
+Credits:
+Code snippet by @maridlcrmn (Follow me on Twitter)
+Images by Nike.com (http://www.nike.com/us/en_us/)
+Logo by Sneaker-mission.com (http://www.sneaker-mission.com/)
+*/
+
+.custom-m .navbar-brand { 
+  width: 70px;
+  height: 50px;
+  background: url('http://www.sneaker-mission.com/uploads/3/1/2/7/31279819/5617441.png') no-repeat center center;
+  background-size: 50px;  
+}
+
+.custom-m .nav-tabs {
+  display: inline-block;
+  border-bottom: none;
+  padding-top: 15px;
+  font-weight: bold;
+}
+.custom-m .nav-tabs > li > a, 
+.custom-m .nav-tabs > li > a:hover, 
+.custom-m .nav-tabs > li > a:focus, 
+.custom-m .nav-tabs > li.active > a, 
+.custom-m .nav-tabs > li.active > a:hover,
+.custom-m .nav-tabs > li.active > a:focus {
+  border: none;
+  border-radius: 0;
+}
+
+.custom-m .nav-list { border-bottom: 1px solid #eee; }
+.custom-m .nav-list > li { 
+  padding: 20px 15px 15px;
+  border-left: 1px solid #eee; 
+}
+.custom-m .nav-list > li:last-child { border-right: 1px solid #eee; }
+.custom-m .nav-list > li > a:hover { text-decoration: none; }
+.custom-m .nav-list > li > a > span {
+  display: block;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.custom-m .mega-dropdown { position: static !important; }
+.custom-m .mega-dropdown-menu {
+  padding: 20px 15px 15px;
+  text-align: center;
+  width: 100%;
+  margin-top:1px!important;
+}
+
+.custom-m .navbar-nav > li > a {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.custom-m .navbar-header {
+  padding: 0px!important;
+}
+
+.custom-m .navbar-default .navbar-nav > .open > a{
+  color: antiquewhite;
+}
+
+.custom-m .navbar-default .navbar-nav > .open > a,
+.custom-m .navbar-default .navbar-nav > .open > a:hover,
+.custom-m .navbar-default .navbar-nav > .open > a:focus {
+  color:antiquewhite !important;
+  background-color: #e7e7e7 !important;
+}
+
+.custom-m i.material-icons{
+  font-size: 80px;
+}
