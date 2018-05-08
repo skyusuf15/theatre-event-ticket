@@ -12,18 +12,18 @@ define('CHARSET', 'utf8');
 function createDB(){
     try{
 
-        //connect to mysql
-        $link = mysql_connect(HOST,USER,PASSWORD);
+        //connect to mysqli
+        $link = mysqli_connect(HOST,USER,PASSWORD);
 
         if(!$link){
-            die('Could not connect: ' .mysql_error());
+            die('Could not connect: ' .mysqli_error());
         }
 
-        if(!mysql_select_db(DATABASE, $link)){
+        if(!mysqli_select_db($link,DATABASE)){
             $sql = "CREATE DATABASE IF NOT EXISTS ".DATABASE."";  
 
-            if(mysql_query($sql, $link)){
-                mysql_select_db(DATABASE, $link); //select db to use
+            if(mysqli_query($link,$sql)){
+                mysqli_select_db($link,DATABASE); //select db to use
 
                 // -- Table structure for table `base_page_type` --------------
                 $sql = "CREATE TABLE IF NOT EXISTS `base_page_type` 
@@ -37,14 +37,14 @@ function createDB(){
                 PRIMARY KEY (`page_type_id`),
                 UNIQUE KEY `page_type_id` (`page_type_id`)
                 )" ;
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- Dumping data for table `base_page_type`
                 $sql = "INSERT INTO `base_page_type` (`page_type_id`, `page_type_name`, `custom_type`, `page_type_icon`, `page_type_order`) VALUES
                 (1, 'access_control', 'Access Control', 'widgets', 2),
                 (2, 'ticket_setup', 'Ticket Setup', 'swap_calls', 3),
                 (3, 'auth', 'Auth', '', 0),
                 (4, 'other', 'Other', '', 1)";
-                mysql_query($sql, $link); //run query                
+                mysqli_query($link,$sql); //run query                
                 // -- ---------------------------------------------------------
 
                 // -- Table structure for table `base_page` -------------------
@@ -60,7 +60,7 @@ function createDB(){
                 KEY `page_icon` (`page_icon`),
                 KEY `page_type_id` (`page_type_id`)
                 )" ;
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- Dumping data for table `base_page`
                 $sql = "INSERT INTO `base_page` (`page_id`, `page_name`, `custom_name`, `page_type_id`, `page_icon`) VALUES
                 (1, 'role', 'Role', 1, 'verified_user'),
@@ -75,7 +75,7 @@ function createDB(){
                 (10, 'explore', 'Explore', 4, 'dashboard'),
                 (11, 'cart', 'Cart', 4, 'add_shopping_cart'),
                 (12, 'my_ticket', 'My Ticket', 4, 'explore')";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- --------------------------------------------------------
 
                 // -- Table structure for table `base_role` -------------------
@@ -93,13 +93,13 @@ function createDB(){
                 PRIMARY KEY (`role_id`),
                 KEY `page_id` (`page_id`)
                 )";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- Dumping data for table `base_role`
                 $sql = "INSERT INTO `base_role` (`role_id`, `role_name`, `role_active`, `default_page_id`, `created_by_id`, `modified_by_id`, `page_id`) VALUES
                 (1, 'Super Administrator', 1, 1, 1, 0, 1),
                 (2, 'Technical Assistant', 1, 3, 1, 0, 1),
                 (3, 'Customer', 1, 10, 1, 0, 1)";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- --------------------------------------------------------
 
                 // -- Table structure for table `base_user` ------------------
@@ -125,13 +125,13 @@ function createDB(){
                 KEY `role_id` (`role_id`),
                 KEY `page_id` (`page_id`)
                 )";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- Dumping data for table `base_user`
                 $sql = "INSERT INTO `base_user` (`user_id`, `role_id`, `user_name`, `user_first_name`, `user_last_name`, `user_gender`, `user_email`, `user_phone_number`, `user_password`, `user_active`, `login_status`, `created_by_id`, `modified_by_id`, `page_id`) VALUES
                 (1, 1, 'ahmzyjazzy', 'Ahmed', 'Olanrewaju', '', 'olanrewajuahmed095@yahoo.com', '08093570289', 'tic9193ce3b31332b03f7d8af056c692b84ket', 1, 0, 0, 0, 2),
                 (2, 2, 'capable', 'Sunday', 'Alabi', '', 'alabi@yahoo.com', '9048358455', 'tic787c74a2e618a696e34e025adda33ad3ket', 1, 0, 0, 0, 2),
                 (3, 3, 'sammy', 'Sam', 'Samuel', 'M', 'sammy@y.com', '515132013', 'tic4385695633f8c6c8ab52592092cecf04ket', 1, 0, 0, 0, 9)";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- --------------------------------------------------------
 
                 // -- Table structure for table `base_page_access` -----------
@@ -145,13 +145,13 @@ function createDB(){
                 KEY `page_id` (`page_id`,`role_id`),
                 KEY `role_id` (`role_id`)
                 )";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- Dumping data for table `base_page_access`
                 $sql = "INSERT INTO `base_page_access` (`page_access_id`, `page_id`, `role_id`) VALUES
                 (1, 1, 1), (2, 2, 1), (3, 3, 1), (4, 4, 1), (5, 5, 1), (6, 6, 1), (7, 7, 1),
                 (8, 3, 2), (9, 4, 2), (10, 5, 2), (11, 6, 2), (12, 7, 2),
                 (13, 10, 3), (14, 11, 3), (15, 12, 3)";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- --------------------------------------------------------
 
                 // -- Table structure for table `base_log` ------------------
@@ -166,7 +166,7 @@ function createDB(){
                 PRIMARY KEY (`log_id`),
                 KEY `user_id` (`user_id`)
                 )";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- --------------------------------------------------------
 
                 // -- Table structure for table `base_category_type` -------------
@@ -176,11 +176,11 @@ function createDB(){
                 `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 PRIMARY KEY (`type_id`)
                 )";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- Dumping data for table `base_category_type`
                 $sql = "INSERT INTO `base_category_type` (`type_id`, `type_name`) VALUES
                 (1, 'Event'), (2, 'Hall'), (3, 'Ticket')";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- --------------------------------------------------------
 
                 // -- Table structure for table `base_category` -----------------
@@ -198,7 +198,7 @@ function createDB(){
                 PRIMARY KEY (`category_id`),
                 KEY `page_id` (`page_id`)
                 )";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- Dumping data for table `base_category`
                 $sql = "INSERT INTO `base_category` (`category_id`, `category_code`, `category_name`, `type_id`, `category_active`, `created_by_id`, `modified_by_id`, `page_id`) VALUES
                 (1, 'H001', 'Small', 2, 1, 1, 0, 3),
@@ -206,7 +206,7 @@ function createDB(){
                 (3, 'H002', 'Medium', 2, 1, 1, 0, 3),
                 (4, 'Drama', 'Drama', 1, 1, 1, 0, 3),
                 (5, 'EDU', 'Education', 1, 1, 1, 0, 3)";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- --------------------------------------------------------
 
                 // -- Table structure for table `base_hall` -----------------
@@ -225,13 +225,13 @@ function createDB(){
                 PRIMARY KEY (`hall_id`),
                 KEY `page_id` (`page_id`)
                 )";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- Dumping data for table `base_hall`
                 $sql = "INSERT INTO `base_hall` (`hall_id`, `category_id`, `hall_code`, `hall_name`, `hall_capacity`, `hall_active`, `created_by_id`, `modified_by_id`, `page_id`) VALUES
                 (1, 3, 'H1', 'Yankari', 20, 1, 1, 0, 4),
                 (2, 1, 'H2', 'Westend', 10, 1, 1, 0, 4),
                 (3, 3, 'H3', 'Intercontinental', 15, 1, 1, 0, 4)";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- --------------------------------------------------------
 
                 // -- Table structure for table `base_event` -----------------
@@ -255,13 +255,13 @@ function createDB(){
                 PRIMARY KEY (`event_id`),
                 KEY `page_id` (`page_id`)
                 )";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- Dumping data for table `base_event`
                 $sql = "INSERT INTO `base_event` (`event_id`, `hall_id`, `event_code`, `event_name`, `event_description`, `image_link`, `thumbnail_link`, `event_active`, `event_date`, `event_time`, `use_hall_capacity`, `created_by_id`, `modified_by_id`, `page_id`) VALUES
                 (1, 2, 'E1', 'Teju Babyface', 'This is a sample event, am just testing it.', '', '', 1, '2018-02-28', '09:30:00', 0, 1, 0, 5),
                 (2, 3, 'E2', 'Industry Night', 'This is a sample event, am just testing it.', '', '', 1, '2018-03-02', '11:30:00', 0, 1, 0, 5),
                 (3, 1, 'E3', 'Villa Day 2018', 'This is get together of all freshers in the campus', '', '', 1, '2018-03-18', '15:00:00', 0, 1, 0, 5)";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- -----------------------------------------------------------
 
                 // -- Table structure for table `base_tag` ----------------------
@@ -274,11 +274,11 @@ function createDB(){
                 KEY `event_id` (`event_id`),
                 KEY `category_id` (`category_id`)
                 )";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- Dumping data for table `base_tag`
                 $sql = "INSERT INTO `base_tag` (`tag_id`, `event_id`, `category_id`) VALUES
                 (1, 1, 2), (2, 1, 4), (3, 2, 5), (4, 3, 5), (5, 3, 2)";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- ----------------------------------------------------------
                 
                 // -- Table structure for table `base_unit` --------------------
@@ -295,7 +295,7 @@ function createDB(){
                 `date_modified` datetime NOT NULL,
                 PRIMARY KEY (`unit_id`)
                 )";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- Dumping data for table `base_unit`
                 $sql = "INSERT INTO `base_unit` (`unit_id`, `unit_code`, `unit_name`, `quantity`, `unit_active`, `created_by_id`, `modified_by_id`, `page_id`) VALUES
                 (1, 'Table Of 5', 'Table Of 5', 5, 1, 1, 0, 7),
@@ -310,7 +310,7 @@ function createDB(){
                 (10, 'Table of 20', 'Table of 20', 20, 1, 1, 0, 7),
                 (11, 'VIP', 'VIP', 1, 1, 1, 0, 7),
                 (12, 'Regular', 'Regular', 1, 1, 1, 0, 7)";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // --------------------------------------------------------------
 
                 // -- Table structure for table `base_ticket` -------------------
@@ -328,13 +328,13 @@ function createDB(){
                 PRIMARY KEY (`ticket_id`),
                 KEY `page_id` (`page_id`)
                 )";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- Dumping data for table `base_ticket`
                 $sql = "INSERT INTO `base_ticket` (`ticket_id`, `event_id`, `ticket_code`, `ticket_name`, `ticket_active`, `created_by_id`, `modified_by_id`, `page_id`) VALUES
                 (1, 2, 'Ticket Sample', 'Ticket Sample', 1, 1, 0, 12),
                 (2, 1, 'Awardee', 'Awardee', 1, 1, 0, 12),
                 (3, 3, 'Villa Day 18', 'Villa Day 18', 1, 1, 0, 12)";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- ----------------------------------------------------------
 
                 // -- Table structure for table `base_ticket_detail` -----------
@@ -349,7 +349,7 @@ function createDB(){
                 KEY `ticket_id` (`ticket_id`),
                 KEY `unit_id` (`unit_id`)
                 )";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- Dumping data for table `base_ticket_detail`
                 $sql = "INSERT INTO `base_ticket_detail` (`ticket_detail_id`, `ticket_id`, `unit_id`, `price`, `discount`) VALUES
                 (1, 1, 1, 100, ''),
@@ -358,7 +358,7 @@ function createDB(){
                 (4, 2, 7, 500, ''),
                 (5, 3, 12, 2000, ''),
                 (6, 3, 11, 5000, '')";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- --------------------------------------------------------
 
                 // -- Table structure for table `base_txn` -------------------
@@ -372,13 +372,13 @@ function createDB(){
                 PRIMARY KEY (`txn_id`),
                 KEY `user_id` (`user_id`)
                 )";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- Dumping data for table `base_txn`
                 $sql = "INSERT INTO `base_txn` (`txn_id`, `user_id`, `ticket_qty`, `total_amount`, `status`) VALUES
                 (1, 3, 3, 10100, 'paid'),
                 (2, 3, 1, 500, 'paid'),
                 (3, 3, 2, 4500, 'paid')";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- --------------------------------------------------------
 
                 // -- Table structure for table `base_txn_detail`
@@ -397,7 +397,7 @@ function createDB(){
                 PRIMARY KEY (`txn_detail_id`),
                 KEY `txn_id` (`txn_id`)
                 )";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- Dumping data for table `base_txn_detail`
                 $sql = "INSERT INTO `base_txn_detail` (`txn_detail_id`, `txn_id`, `event_id`, `ticket_id`, `unit_id`, `quantity_order`, `unit_price`, `total_amount`, `is_used`, `status`) VALUES
                 (1, 1, 3, 3, 12, 2, 2000, 4000, 0, 'pending'),
@@ -406,7 +406,7 @@ function createDB(){
                 (4, 2, 2, 2, 1, 5, 100, 500, 0, 'pending'),
                 (5, 3, 3, 3, 12, 2, 2000, 4000, 0, 'pending'),
                 (6, 3, 2, 2, 1, 5, 100, 500, 0, 'pending')";
-                mysql_query($sql, $link); //run query
+                mysqli_query($link,$sql); //run query
                 // -- --------------------------------------------------------
 
             }else{
